@@ -1,0 +1,6 @@
+module Pods_SportsApplication {
+  umbrella header "Pods-SportsApplication-umbrella.h"
+
+  export *
+  module * { export * }
+}
