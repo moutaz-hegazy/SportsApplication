@@ -15,6 +15,7 @@ class TeamsView: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UICo
             teamsCollectionView.reloadData()
         }
     }
+    var teamSelectionDelegate: TeamSelection?
     
     @IBOutlet weak var teamsCollectionView : UICollectionView!
     
@@ -38,6 +39,12 @@ class TeamsView: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UICo
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? TeamCollectionViewCell{
+            teamSelectionDelegate?.didSelect(leagueTeams[indexPath.row], with: cell.teamImgView.image)
+        }
     }
     
 

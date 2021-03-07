@@ -1,4 +1,4 @@
-module Pods_SportsApplication {
+framework module Pods_SportsApplication {
   umbrella header "Pods-SportsApplication-umbrella.h"
 
   export *

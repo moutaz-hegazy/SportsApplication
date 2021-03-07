@@ -3,7 +3,8 @@
 
 target 'SportsApplication' do
     pod 'Alamofire', '5.0'
-    pod 'SDWebImage', '~> 5.0'
+    use_frameworks!
+    pod 'SDWebImage'
 
 
 end

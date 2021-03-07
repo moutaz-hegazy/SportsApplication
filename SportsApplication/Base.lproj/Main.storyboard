@@ -88,7 +88,7 @@
             </objects>
             <point key="canvasLocation" x="1663.2" y="54.679802955665025"/>
         </scene>
-        <!--Item-->
+        <!--Favourite Leagues View Controller-->
         <scene sceneID="JFa-Ah-cOC">
             <objects>
                 <viewController id="p4S-cj-mBW" customClass="FavouriteLeaguesViewController" customModule="SportsApplication" customModuleProvider="target" sceneMemberID="viewController">
@@ -100,13 +100,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
-                                    <navigationItem title="Title" id="B5x-wl-xhq">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="py3-bn-gIe">
-                                            <connections>
-                                                <action selector="moveBack:" destination="5Aa-3q-ttX" id="6Fi-fd-ewz"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <navigationItem title="Favourite Leagues" id="B5x-wl-xhq"/>
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="300" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9Va-J7-LMN">
@@ -172,6 +166,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="p4S-cj-mBW" id="mgp-sH-kPq"/>
+                                    <outlet property="delegate" destination="p4S-cj-mBW" id="NV9-pe-PNp"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -186,7 +184,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="apX-Tz-ZbI"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="4h6-jK-7rK"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="4h6-jK-7rK"/>
+                    <connections>
+                        <outlet property="leaguesTableView" destination="9Va-J7-LMN" id="5aa-zR-UnI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OH3-88-Vno" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -619,6 +620,7 @@
                     </view>
                     <connections>
                         <outlet property="eventView" destination="mw5-yu-SMx" id="BS8-IR-PmJ"/>
+                        <outlet property="favBarButton" destination="1kO-aH-UWe" id="QSe-3h-Bst"/>
                         <outlet property="navBar" destination="OPc-zm-x3u" id="YKV-nd-hag"/>
                         <outlet property="resultsView" destination="oos-Q3-VqW" id="zXq-3g-O7C"/>
                         <outlet property="teamsView" destination="tEd-LD-iax" id="d04-mq-GWm"/>
@@ -628,11 +630,95 @@
             </objects>
             <point key="canvasLocation" x="3215.1999999999998" y="47.290640394088669"/>
         </scene>
-        <!--Item-->
+        <!--Team Details View Controller-->
+        <scene sceneID="arC-vU-P1a">
+            <objects>
+                <viewController storyboardIdentifier="TeamDetailsVC" id="JYk-0b-eCa" customClass="TeamDetailsViewController" customModule="SportsApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tj1-WC-wMs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoT-fX-weJ">
+                                <rect key="frame" x="152" y="74" width="71" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u8q-O1-ABa">
+                                <rect key="frame" x="47" y="159.99999999999997" width="281" height="281.33333333333326"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="u8q-O1-ABa" secondAttribute="height" multiplier="1:1" id="iop-Il-eNN"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="League : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mA-6n-uYV">
+                                <rect key="frame" x="47" y="475" width="79" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ManUTD" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiY-7s-Lb8">
+                                <rect key="frame" x="136" y="476.66666666666669" width="67.333333333333314" height="20.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sport : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Atj-qp-fhM">
+                                <rect key="frame" x="47" y="527" width="62.333333333333343" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soccer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E2-nt-kIQ">
+                                <rect key="frame" x="136" y="527" width="61.333333333333343" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iux-sF-zIl">
+                                <rect key="frame" x="165.66666666666666" y="601" width="44" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="dismissView:" destination="JYk-0b-eCa" eventType="touchUpInside" id="e7K-qo-EnB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="9mA-6n-uYV" firstAttribute="leading" secondItem="u8q-O1-ABa" secondAttribute="leading" id="2lo-6u-OIs"/>
+                            <constraint firstItem="Iux-sF-zIl" firstAttribute="centerX" secondItem="3sf-Rl-T7b" secondAttribute="centerX" id="6i8-u4-CKV"/>
+                            <constraint firstItem="Atj-qp-fhM" firstAttribute="leading" secondItem="9mA-6n-uYV" secondAttribute="leading" id="Cvm-eC-nDZ"/>
+                            <constraint firstItem="u8q-O1-ABa" firstAttribute="top" secondItem="CoT-fX-weJ" secondAttribute="bottom" constant="50" id="IBi-BY-C1v"/>
+                            <constraint firstItem="u8q-O1-ABa" firstAttribute="width" secondItem="tj1-WC-wMs" secondAttribute="width" multiplier="0.75" id="Ose-JH-Vi9"/>
+                            <constraint firstItem="CoT-fX-weJ" firstAttribute="top" secondItem="3sf-Rl-T7b" secondAttribute="top" constant="30" id="YU7-oT-HBG"/>
+                            <constraint firstItem="9mA-6n-uYV" firstAttribute="top" secondItem="u8q-O1-ABa" secondAttribute="bottom" constant="33.666666666666742" id="Zw1-JM-ZdY"/>
+                            <constraint firstItem="Atj-qp-fhM" firstAttribute="top" secondItem="9mA-6n-uYV" secondAttribute="bottom" constant="28" id="d8M-hT-wfl"/>
+                            <constraint firstItem="GiY-7s-Lb8" firstAttribute="leading" secondItem="9mA-6n-uYV" secondAttribute="trailing" constant="10" id="g1C-H2-ab0"/>
+                            <constraint firstItem="GiY-7s-Lb8" firstAttribute="centerY" secondItem="9mA-6n-uYV" secondAttribute="centerY" id="ghz-i6-0su"/>
+                            <constraint firstItem="CoT-fX-weJ" firstAttribute="centerX" secondItem="3sf-Rl-T7b" secondAttribute="centerX" id="hIo-Tw-k2g"/>
+                            <constraint firstItem="1E2-nt-kIQ" firstAttribute="centerY" secondItem="Atj-qp-fhM" secondAttribute="centerY" id="i0V-LM-lPY"/>
+                            <constraint firstItem="u8q-O1-ABa" firstAttribute="centerX" secondItem="3sf-Rl-T7b" secondAttribute="centerX" id="jVF-YC-Ox0"/>
+                            <constraint firstItem="Iux-sF-zIl" firstAttribute="top" secondItem="1E2-nt-kIQ" secondAttribute="bottom" constant="50" id="kKf-nb-L9r"/>
+                            <constraint firstItem="1E2-nt-kIQ" firstAttribute="leading" secondItem="Atj-qp-fhM" secondAttribute="trailing" constant="26.666666666666657" id="wTx-bs-bx0"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3sf-Rl-T7b"/>
+                    </view>
+                    <connections>
+                        <outlet property="leagueNameLbl" destination="GiY-7s-Lb8" id="rUx-YQ-MIX"/>
+                        <outlet property="sportNameLbl" destination="1E2-nt-kIQ" id="7O4-a9-Sg9"/>
+                        <outlet property="teamBadgeView" destination="u8q-O1-ABa" id="BGA-3J-90n"/>
+                        <outlet property="teamNameLbl" destination="CoT-fX-weJ" id="bPX-of-Juo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WhV-Z2-UfR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4008.8000000000002" y="45.812807881773402"/>
+        </scene>
+        <!--Title-->
         <scene sceneID="rSF-Pp-AQF">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="op3-uG-fRg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="tVW-RR-Dcj"/>
+                    <tabBarItem key="tabBarItem" title="Title" image="sportscourt.fill" catalog="system" selectedImage="sportscourt.fill" id="tVW-RR-Dcj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="58l-hi-ORC">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -653,6 +739,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="nke-c4-DlA" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YvR-ff-vqc">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -666,4 +753,7 @@
             <point key="canvasLocation" x="-189.59999999999999" y="54.679802955665025"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="sportscourt.fill" catalog="system" width="64" height="40"/>
+    </resources>
 </document>

@@ -7,23 +7,30 @@
 //
 
 import UIKit
-import Alamofire
 
 
 private let eventsLink = "https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id="
 private let resultsLink = "https://www.thesportsdb.com/api/v1/json/1/lookupevent.php?id="
 private let teamsLink = "https://www.thesportsdb.com/api/v1/json/1/lookup_all_teams.php?id="
 
-class LeagueDetailsViewController: UIViewController {
+class LeagueDetailsViewController: UIViewController, TeamSelection {
     
-    
+    @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var favBarButton: UIBarButtonItem!
     @IBOutlet weak var eventView: EventsView!
     @IBOutlet weak var resultsView: ResultsView!
-    @IBOutlet weak var teamsView: TeamsView!
-    @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var teamsView: TeamsView!{
+        didSet{
+            if (teamsView != nil){
+                teamsView.teamSelectionDelegate = self
+            }
+        }
+    }
+    
+    
     
     var leagueID : String?
-    
+    var leaguesDelegate : AddToFav?
     var eventsID = [String?]()
     
     @IBAction func backToCaller(_ sender: Any) {
@@ -39,6 +46,20 @@ class LeagueDetailsViewController: UIViewController {
     
     
     @IBAction func addToFavourite(_ sender: Any) {
+        if let id = leagueID{
+            leaguesDelegate?.addLeagueToFavourite(by: id)
+        }
+    }
+    
+    func didSelect(_ team:TeamData , with badge: UIImage?) {
+        if let TeamDetailsVC = storyboard?.instantiateViewController(identifier: "TeamDetailsVC") as? TeamDetailsViewController{
+            present(TeamDetailsVC, animated: true) {
+                TeamDetailsVC.teamBadgeView.image = badge
+                TeamDetailsVC.teamNameLbl.text = team.teamName
+                TeamDetailsVC.leagueNameLbl.text = team.leagueName
+                TeamDetailsVC.sportNameLbl.text = team.sportName
+            }
+        }
     }
     
     
@@ -52,7 +73,9 @@ class LeagueDetailsViewController: UIViewController {
         NetworkLayer.fetchData(from:eventsLink + id){
             [unowned self](data,error) in
             if error != nil{
-                // error code
+                DispatchQueue.main.async {
+                    self.present(ErrorAlert.getErrorAlert(), animated: true, completion: nil)
+                }
                 return
             }
             
@@ -88,7 +111,9 @@ class LeagueDetailsViewController: UIViewController {
                 [unowned self]
                 (data, error) in
                 if error != nil{
-                    //error handling
+                    DispatchQueue.main.async {
+                        self.present(ErrorAlert.getErrorAlert(), animated: true, completion: nil)
+                    }
                     return
                 }
                 guard let dataDict = data as? [String:Any]
@@ -118,7 +143,9 @@ class LeagueDetailsViewController: UIViewController {
             [unowned self]
             (data, error) in
             if error != nil{
-                //error handle
+                DispatchQueue.main.async {
+                    self.present(ErrorAlert.getErrorAlert(), animated: true, completion: nil)
+                }
                 return
             }
             

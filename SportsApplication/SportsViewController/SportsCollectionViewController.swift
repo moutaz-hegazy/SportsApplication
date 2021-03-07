@@ -11,6 +11,7 @@ import Alamofire
 
 
 private let reuseIdentifier = "sportCell"
+private let sportsUrlStr = "https://www.thesportsdb.com/api/v1/json/1/all_sports.php"
 
 class SportsCollectionViewController: UICollectionViewController {
 
@@ -112,43 +113,37 @@ class SportsCollectionViewController: UICollectionViewController {
     
     private func retrieveDataFromWeb(){
         print("START RETREIVE")
-        let request = AF.request("https://www.thesportsdb.com/api/v1/json/1/all_sports.php")
-        
-        request.responseJSON { [weak self] (response) in
-            switch(response.result)
-            {
-            case .success(let data):
-                guard let sportsDict = data as? [String:Any] else{
-                    return
-                }
-                guard let arr = sportsDict["sports"] as? [Any] else{
-                    return
-                }
-                
-                for element in arr{
-                    guard let sportData = element as? [String:String] else {
-                        return
-                    }
-                    var newSport = Sport()
-                    newSport.sportID = sportData["idSport"]
-                    newSport.sportName = sportData["strSport"]
-                    newSport.sportFormat = sportData["strFormat"]
-                    newSport.sportThumbnail = sportData["strSportThumb"]
-                    newSport.sportThumbnailGreen = sportData["strSportThumbGreen"]
-                    newSport.sportDescription = sportData["strSportDescription"]
-                    
-                    self?.sportsArr += [newSport]
-                }
+        NetworkLayer.fetchData(from: sportsUrlStr) {
+            [weak self]
+            (data, error) in
+            if error != nil{
                 DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
+                    self?.present(ErrorAlert.getErrorAlert(), animated: true, completion: nil)
                 }
+                return
+            }
+            guard let sportsDict = data as? [String:Any]
+                , let arr = sportsDict["sports"] as? [Any] else{
+                return
+            }
+            
+            for element in arr{
+                guard let sportData = element as? [String:String] else {
+                    return
+                }
+                var newSport = Sport()
+                newSport.sportID = sportData["idSport"]
+                newSport.sportName = sportData["strSport"]
+                newSport.sportFormat = sportData["strFormat"]
+                newSport.sportThumbnail = sportData["strSportThumb"]
+                newSport.sportThumbnailGreen = sportData["strSportThumbGreen"]
+                newSport.sportDescription = sportData["strSportDescription"]
                 
-
-            case .failure(let error):
-                    print(error)
+                self?.sportsArr += [newSport]
+            }
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
             }
         }
-
     }
-
 }

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="StoredLeague" representedClassName="StoredLeague" syncable="YES" codeGenerationType="class">
+        <attribute name="badge" optional="YES" attributeType="String"/>
+        <attribute name="leagueID" optional="YES" attributeType="String"/>
+        <attribute name="leagueName" optional="YES" attributeType="String"/>
+        <attribute name="sportName" optional="YES" attributeType="String"/>
+        <attribute name="youtubeLink" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="StoredLeague" positionX="-45" positionY="0" width="128" height="118"/>
+    </elements>
 </model>
